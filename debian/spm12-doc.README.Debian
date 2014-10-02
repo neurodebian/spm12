@@ -1,0 +1,15 @@
+SPM12 documentation for Debian
+------------------------------
+
+The SPM sources do not contain all required source files to build a complete
+SPM manual. The missing portion have to be generated with MATLAB from the SPM
+online help. For this reason the PDF version of the SPM manual is lacking
+part 1 (temporal processing), part 2 (spatial processing) and part 5
+(utilities). While not contained in the PDF version, this information is still
+available from the SPM online help.
+
+A complete version of the manual is available from the SPM website:
+
+  http://www.fil.ion.ucl.ac.uk/spm/doc/spm12_manual.pdf
+
+ -- Michael Hanke <michael.hanke@gmail.com>  Thu, 2 Oct 2014 17:29:14 +0200

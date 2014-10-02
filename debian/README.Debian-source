@@ -1,0 +1,10 @@
+Debian source package of SPM12
+==============================
+
+The official SPM12 distribution contains a number of external software
+(including binary-only portions) and pre-compiled MEX extensions.
+
+All binary parts have been strip from the source packages, as well as external
+software that is useful without SPM and will be packaged separately.
+
+ -- Michael Hanke <michael.hanke@gmail.com>  Thu, 2 Oct 2014 17:27:23 +0200

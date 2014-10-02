@@ -1,0 +1,2 @@
+Allow custom/local/3rd-party toolboxes to be installed into something like
+/usr/local/{lib,share}/SPM12/toolbox and be usable out-of-the-box.

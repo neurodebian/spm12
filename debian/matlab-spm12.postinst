@@ -1,0 +1,21 @@
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+        debian-matlab-mexhelper spm12 install \
+            --build-cmd 'make -C src all toolbox MEXBIN="matlab-mex"' \
+            --install-cmd 'make -C src install && find . ! -wholename "./src" -name "*.mex?*" -print0 | xargs -0 -I {} cp -v --parent {} /usr/share/spm12' \
+            --clean-cmd 'make -C src distclean toolbox-distclean && find . -name "*.mex?*" -delete'
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#

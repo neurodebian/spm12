@@ -1,0 +1,122 @@
+#!/usr/bin/make -f
+
+srcpkg = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Source:' | cut -d ' ' -f 2,2)
+debver = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Version:' | cut -d ' ' -f 2,2 )
+upstreamver = $(shell echo $(debver) | cut -d '-' -f 1,1 )
+
+# this figures out the last merge point from 'master' into the Debian branch and
+# then described this commit relative to the last release tag (upstream/...)
+# If this should make any sense the local master branch must track upstream's
+# master or whatever other source branch.
+gitver = $(shell [ -x /usr/bin/git ] && git describe --tags --match 'upstream/*' $$(git merge-base -a HEAD master) | sed -e 's,^upstream/,,' -e 's/_/~/g' -e 's/-/+git/')
+
+
+# get octave paths (have to build-depend on octave-headers)
+#include /usr/share/octave/debian/defs.make
+# same for Matlab
+include /usr/share/matlab/debian/defs.make
+
+# one ring to rule them all ...
+%:
+	dh $@
+
+override_dh_auto_configure:
+override_dh_auto_build:
+	# build manual
+	$(MAKE) -C man
+	# build octave extensions -- set proper extension to prevent rebuilding
+	#$(MAKE) -C src SUF=mex MEXBIN="mkoctfile --mex" MEXOPTS=""
+
+override_dh_auto_install:
+	# create a link in octaves PATH to SPM
+	#-mkdir -p debian/spm12-common/$(MATLAB_MDIR)
+	#ln -sf /usr/share/spm12 debian/spm12-common/$(MATLAB_MDIR)/spm12
+	# all files in root
+	find . -maxdepth 1 -type f \
+		-exec install -m 644 -t debian/spm12-common/usr/share/spm12 \{\} \;
+	# and all directories, but a few that are shipped in other packages
+	find . -maxdepth 1 -mindepth 1 -type d -regextype posix-egrep ! -regex \
+		'\./(\.pc|\.git|debian|templates|tpm|rend|man|apriori|src|EEGtemplates|cannonical)' \
+		-exec cp -r -t debian/spm12-common/usr/share/spm12 \{\} \;
+	# cleanup overshoot
+	find debian/spm12-common/usr/share/spm12 -regextype posix-egrep -type f \
+		-regex '.*(\.([ch]|gii|nii)|Makefile|spm_LICENCE.man|\.gitignore|.gitattributes)' \
+		-delete
+	# generate file links setup
+	cp debian/spm12-data.links.in debian/spm12-data.links
+	cp debian/matlab-spm12.links.in debian/matlab-spm12.links
+	# put spm12 in Matlab's M-path
+	echo "/usr/share/spm12 $(MATLAB_MDIR)/spm12" >> debian/matlab-spm12.links
+	# mex files from /usr/lib/spm12 -> /usr/share/spm12
+	#-rm -f debian/octave-spm12.links
+	#for f in $$(find . -type f -name '*.mex'); do \
+	#	echo /usr/lib/spm12/$$(basename $$f) /usr/share/spm12/$$(basename $$f) >> debian/octave-spm12.links ; \
+	#done
+	# put convenience commands
+	printf "#! /bin/sh\n\nmatlab -r \"addpath('/usr/share/matlab/site/m/spm12'); spm\"\n" \
+		> debian/matlab-spm12/usr/bin/spm12-matlab
+	chmod +x debian/matlab-spm12/usr/bin/spm12-matlab
+	# install the extension sources
+	find . -type f -regextype posix-egrep \
+		! -regex '^\./(\.pc|\.git|debian|man)/.*' \
+		-regex '.*(Makefile|Makefile.var|\.c|\.h)$$' -print0 \
+		| xargs -0 -I {} \
+		cp --parent {} debian/matlab-spm12/$(MATLAB_MEX_SRCDIR)/spm12
+
+override_dh_auto_test:
+
+override_dh_install:
+	dh_install
+	# fixing bits
+	# non-executable scripts
+	find debian/matlab-spm12/$(MATLAB_MEX_SRCDIR)/spm12 -name Makefile \
+		-exec chmod +x {} \;
+
+override_dh_clean:
+	# clean after latex
+	find man -name '*.aux' -delete
+	find man -name 'manual.*' ! -name manual.tex -delete
+	# octave stuff
+	find src -name '*.a' -delete
+	find src -name '*.o' -delete
+	find src -name '*.mex' -delete
+	rm -f debian/spm12-common.links
+	rm -f debian/octave-spm12.links
+	rm -f debian/matlab-spm12.links
+	dh_clean
+
+override_dh_compress:
+	# manual comes in a separate doc package -- no need to keep compressed
+	dh_compress -X.pdf
+
+# just to run octave-depends
+override_dh_fixperms:
+	dh_fixperms
+	#octave-depends
+
+override_dh_shlibdeps:
+	# octave will take care of proper deps for extensions -- no need to scan
+	# them and warn all the time
+	#dh_shlibdeps -l$(shell octave-config --print OCTLIBDIR)
+	dh_shlibdeps
+
+# run this to remove undesired pieces after extracting an upstream update
+# zip file on top of the sources
+dfsg-source-tree:
+	-quilt pop -a
+	@echo "Testing for uncommited changes"
+	@git diff --quiet HEAD
+	# leftovers from previous compile runs
+	find . -name '*.mex*' -delete
+	# strip compiled manuals, but keep individual figures in PDF format
+	rm -f man/manual.pdf
+	rm -f external/ctf/CTF_MATLAB_v13.pdf
+	# remove binary only pieces
+	rm -rf external/yokogawa
+	# actually remove all third party software
+	rm -rf external
+
+get-orig-source: dfsg-source-tree
+	git archive --format=tar --prefix=$(srcpkg)-$(gitver)/ HEAD | \
+		gzip -9 > $(srcpkg)_$(gitver).orig.tar.gz
+

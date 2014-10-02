@@ -1,0 +1,7 @@
+version=3
+# this file doesn't have the full sources, only updates since the last major
+# release. It is only used to check for new versions. The full sources have to
+# be obtained through a web interface at
+# http://www.fil.ion.ucl.ac.uk/spm/software/download.html
+opts="uversionmangle=s/^/8./,dversionmangle=s/~dfsg\.\d//" \
+ ftp://ftp.fil.ion.ucl.ac.uk/spm/spm12_updates/spm12_updates_r(\d+)\.zip

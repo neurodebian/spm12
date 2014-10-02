@@ -1,0 +1,16 @@
+MATLAB SPM12 for Debian
+-----------------------
+
+The Debian package of SPM12 doesn't ship any pre-compiled MEX extensions. These
+extensions are automatically built when installing the matlab-spm12 package.
+
+To use SPM12 with MATLAB it has to be added to its search path. The
+corresponding installation directory is /usr/share/matlab/site/m/spm12. Adding
+
+  addpath('/usr/share/matlab/site/m/spm12')
+
+to a user's "startup.m" or the system-wide MATLAB configuration will enable
+SPM12. Alternatively, a 'spm12-matlab' command is provided that will
+automatically configure the search path, start MATLAB and load SPM.
+
+ -- Michael Hanke <michael.hanke@gmail.com>  Thu, 2 Oct 2014 17:25:24 +0200

@@ -1,0 +1,2 @@
+# this should really go into Octaves lib dirs.
+src/*.mex usr/lib/spm12

@@ -1,0 +1,5 @@
+--- /dev/null
++++ b/man/Makefile
+@@ -0,0 +1,2 @@
++manual.pdf:
++	pdflatex manual && bibtex manual && pdflatex manual && pdflatex manual

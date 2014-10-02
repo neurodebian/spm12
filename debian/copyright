@@ -1,0 +1,19 @@
+Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
+Name: spm12
+Maintainer: Guillaume Flandin <gflandin@fil.ion.ucl.ac.uk>
+Source: http://www.fil.ion.ucl.ac.uk/spm/
+
+
+Files: *
+Copyright: 1994-2014 Wellcome Trust Centre for Neuroimaging, Institute of
+                     Neurology at University College London (UCL), UK
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-3' file.
+
+
+Files: debian/*
+Copyright: 2014 NeuroDebian Team
+License: GPL-2+
+ On Debian systems the full text of the GNU General Public License can be found
+ in the `/usr/share/common-licenses/GPL-3' file.
