@@ -9,7 +9,7 @@ corresponding installation directory is /usr/share/matlab/site/m/spm12. Adding
 
   addpath('/usr/share/matlab/site/m/spm12')
 
-to a user'sÂ "startup.m" or the system-wide MATLAB configuration will enable
+to a user's "startup.m" or the system-wide MATLAB configuration will enable
 SPM12. Alternatively, a 'spm12-matlab' command is provided that will
 automatically configure the search path, start MATLAB and load SPM.
 

@@ -34,17 +34,13 @@ unzip -q $ORIGSRC_PATH
 find $SUBDIR -name '*.mex*' -delete
 # strip compiled manuals, but keep individual figures in PDF format
 rm -f $SUBDIR/man/manual.pdf
-rm -f $SUBDIR/external/ctf/CTF_MATLAB_v13.pdf
-# remove binary only pieces
-rm -rf $SUBDIR/external/yokogawa
-# actually remove all third party software
+rm -f $SUBDIR/man/ReleaseNotes.pdf
+# remove all third party software
 rm -rf $SUBDIR/external
 
-
 echo -n "Determine SPM version: "
-# Upstream does not have its own version string ...
-# therefore we are going to use the latest modification date of any file in the
-# sources
+# Upstream version can be read in Contents.m:
+# Line2: Version xxxx (SPMx) dd-mmm-yyyy
 UPSTREAM_VERSION="$SPM_MAJORVERSION.$(grep '% Version' $SUBDIR/Contents.m | cut -d ' ' -f 3,3)"
 ORIG_VERSION="$UPSTREAM_VERSION~dfsg.1"
 
