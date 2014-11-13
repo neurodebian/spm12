@@ -31,7 +31,7 @@ Description: analysis of brain imaging data sequences
 Package: spm12-data
 Architecture: all
 Depends: ${misc:Depends}
-Description: data files for SPM8
+Description: data files for SPM12
  Statistical Parametric Mapping (SPM) refers to the construction and assessment
  of spatially extended statistical processes used to test hypotheses about
  functional brain imaging data. These ideas have been instantiated in software
@@ -46,7 +46,7 @@ Package: spm12-doc
 Section: doc
 Architecture: all
 Depends: ${misc:Depends}
-Description: manual for SPM8
+Description: manual for SPM12
  Statistical Parametric Mapping (SPM) refers to the construction and assessment
  of spatially extended statistical processes used to test hypotheses about
  functional brain imaging data. These ideas have been instantiated in software
@@ -61,16 +61,16 @@ Description: manual for SPM8
 #Architecture: any
 #Provides: spm12, spm
 #Depends: ${octave:Depends}, spm12-common (= ${source:Version}), ${shlibs:Depends}, ${misc:Depends}
-#Description: analysis of brain imaging data sequences for Octave
+#Description: analysis of brain imaging data sequences for GNU Octave
 # Statistical Parametric Mapping (SPM) refers to the construction and assessment
 # of spatially extended statistical processes used to test hypotheses about
 # functional brain imaging data. These ideas have been instantiated in software
 # that is called SPM. It is designed for the analysis of fMRI, PET, SPECT, EEG
 # and MEG data.
 # .
-# This package provides SPM to be used with Octave. Note that only a very small
-# subset of SPM8 functionality works with Octave right now. This package is
-# primarily provided to facilitate porting SPM to Octave.
+# This package provides SPM to be used with GNU Octave. Note that only a very small
+# subset of SPM12 functionality works with Octave right now. This package is
+# primarily provided to facilitate porting SPM to GNU Octave.
 
 
 Package: matlab-spm12
@@ -78,13 +78,13 @@ Section: contrib/science
 Architecture: all
 Provides: spm12, spm
 Depends: matlab-support, spm12-common (= ${source:Version}), ${misc:Depends}, make
-Description: analysis of brain imaging data sequences for Matlab
+Description: analysis of brain imaging data sequences for MATLAB
  Statistical Parametric Mapping (SPM) refers to the construction and assessment
  of spatially extended statistical processes used to test hypotheses about
  functional brain imaging data. These ideas have been instantiated in software
  that is called SPM. It is designed for the analysis of fMRI, PET, SPECT, EEG
  and MEG data.
  .
- This package provides SPM to be used with Matlab. Note that this package
- depends on Matlab -- a commercial software that needs to be obtained and
+ This package provides SPM to be used with MATLAB. Note that this package
+ depends on MATLAB -- a commercial software that needs to be obtained and
  installed separately.

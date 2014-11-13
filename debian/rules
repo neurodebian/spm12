@@ -13,7 +13,7 @@ gitver = $(shell [ -x /usr/bin/git ] && git describe --tags --match 'upstream/*'
 
 # get octave paths (have to build-depend on octave-headers)
 #include /usr/share/octave/debian/defs.make
-# same for Matlab
+# same for MATLAB
 include /usr/share/matlab/debian/defs.make
 
 # one ring to rule them all ...
@@ -36,16 +36,16 @@ override_dh_auto_install:
 		-exec install -m 644 -t debian/spm12-common/usr/share/spm12 \{\} \;
 	# and all directories, but a few that are shipped in other packages
 	find . -maxdepth 1 -mindepth 1 -type d -regextype posix-egrep ! -regex \
-		'\./(\.pc|\.git|debian|templates|tpm|rend|man|apriori|src|EEGtemplates|cannonical)' \
+		'\./(\.pc|\.git|debian|templates|tpm|rend|man|apriori|src|EEGtemplates|canonical)' \
 		-exec cp -r -t debian/spm12-common/usr/share/spm12 \{\} \;
 	# cleanup overshoot
 	find debian/spm12-common/usr/share/spm12 -regextype posix-egrep -type f \
-		-regex '.*(\.([ch]|gii|nii)|Makefile|spm_LICENCE.man|\.gitignore|.gitattributes)' \
+		-regex '.*(\.([ch]|gii|nii)|Makefile|LICENCE.txt|\.gitignore|.gitattributes)' \
 		-delete
 	# generate file links setup
 	cp debian/spm12-data.links.in debian/spm12-data.links
 	cp debian/matlab-spm12.links.in debian/matlab-spm12.links
-	# put spm12 in Matlab's M-path
+	# put spm12 in MATLAB's M-path
 	echo "/usr/share/spm12 $(MATLAB_MDIR)/spm12" >> debian/matlab-spm12.links
 	# mex files from /usr/lib/spm12 -> /usr/share/spm12
 	#-rm -f debian/octave-spm12.links
@@ -110,9 +110,8 @@ dfsg-source-tree:
 	find . -name '*.mex*' -delete
 	# strip compiled manuals, but keep individual figures in PDF format
 	rm -f man/manual.pdf
-	rm -f external/ctf/CTF_MATLAB_v13.pdf
+	rm -f man/ReleaseNotes.pdf
 	# remove binary only pieces
-	rm -rf external/yokogawa
 	# actually remove all third party software
 	rm -rf external
 

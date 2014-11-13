@@ -1,6 +1,6 @@
 Format-Specification: http://svn.debian.org/wsvn/dep/web/deps/dep5.mdwn?op=file&rev=135
 Name: spm12
-Maintainer: Guillaume Flandin <gflandin@fil.ion.ucl.ac.uk>
+Maintainer: Guillaume Flandin <g.flandin@ucl.ac.uk>
 Source: http://www.fil.ion.ucl.ac.uk/spm/
 
 
